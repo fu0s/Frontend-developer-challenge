@@ -23,11 +23,13 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 		 
 		  if($scope.numberPerPage == "25"){
 			  $scope.showTwo = true ;
+			   fillList(25 , 1);
 		  }else if($scope.numberPerPage == "10"){ 
 			  $scope.showFive = true ;
 			  $scope.showTwo = true ;
+			   fillList(10 , 1);
 		  }
-		  fillList(10 , 1);
+		 
 	  }
 	  $.getJSON("appResources/JSON.json", function(json) {
 		    console.log(json.data[0]); 
