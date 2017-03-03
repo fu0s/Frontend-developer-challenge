@@ -25,17 +25,17 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-accordion w3-white">
      		
      	  <button  class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-bars fa-fw w3-margin-right"></i> <strong>Filters</strong></button>
-          <button ng-click="myFunction('Demo1')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Number of pages to display</button>
+          <button ng-click="myFunction('Demo1')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Videos to display</button>
           <div id="Demo1" class="w3-accordion-content w3-container">
             	  <p>
 				  <input class="w3-radio" type="radio" name="numberPerPage" ng-model="numberPerPage" value="10" >
-				  <label class="w3-validate">10</label></p>
+				  <label class="w3-validate">10 per Page</label></p>
 				  <p>
 				  <input class="w3-radio" type="radio" name="numberPerPage" ng-model="numberPerPage" value="25">
-				  <label class="w3-validate">25</label></p>
+				  <label class="w3-validate">25 per Page</label></p>
 				  <p>
 				  <input class="w3-radio" type="radio" name="numberPerPages" ng-model="numberPerPage" value="50">
-				  <label class="w3-validate">50</label></p>
+				  <label class="w3-validate">50 per Page</label></p>
           </div>
           <button ng-click="myFunction('Demo2')" class="w3-btn-block w3-theme-l1 w3-left-align"><i class="fa fa-thumbs-up fa-fw w3-margin-right"></i> Filter by Likes</button>
           <div id="Demo2" class="w3-accordion-content w3-container">
@@ -79,18 +79,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
     </div>
     
     <!-- Middle Column -->
-    <div class="w3-col m9" ng-show=show>
+    <div class="w3-col m9" >
     
      
       <ul class="w3-pagination w3-right" >
-  <li><a ng-click="" class="w3-hover-red">&laquo;</a></li>
-  <li><a ng-click="" class="w3-hover-black" ng-show="showTwo">1</a></li>
-  <li><a ng-click="" class="w3-hover-black" ng-show="showTwo">2</a></li>
-  <li><a ng-click="" class="w3-hover-black" ng-show="showFive">3</a></li>
-  <li><a ng-click="" class="w3-hover-black" ng-show="showFive">4</a></li>
-  <li><a ng-click="" class="w3-hover-black" ng-show="showFive">5</a></li>
-  <li><a ng-click="" class="w3-hover-red">&raquo;</a></li>
-</ul>
+		  
+		  <div class="w3-pagination w3-right" pages-directive key="pages" ></div>
+		
+	  </ul>
      <br>
 
       <div class="w3-container w3-card-2 w3-white w3-round w3-margin" ng-repeat="object in ListDisplay"><br>
@@ -128,8 +124,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 
  
 <script>
-
-
 </script>
 
 </body>
