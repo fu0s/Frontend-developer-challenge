@@ -8,11 +8,14 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 		   
 		});
 	
-	 
+	  //initialization
+	  $scope.likesFilter = "No";
 	  //display list video
 	  $scope.display = function () {
 		  fillList($scope.numberPerPage , 1);
 		  getTotalPages($scope.numberPerPage , $scope.objects.length);
+		  $scope.pages[1]=pageClicked( 1 , true);
+		  $scope.pages[1].paginationClass = "w3-hover-black w3-red";
 	  }
 	  //go to page
 	  $scope.goTo = function(index ){
