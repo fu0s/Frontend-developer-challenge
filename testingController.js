@@ -1,6 +1,7 @@
 define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule) {
   app.controller("TestingController", ['MessageHandler','$scope','$http', 'fileUpload','$httpBackend', function(MessageHandler,$scope,$http, fileUpload,$httpBackend) {
 
+	
 	  
 	  $.getJSON("appResources/JSON.json", function(json) {
 		    console.log(json.data); 
@@ -13,9 +14,16 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 	  //display list video
 	  $scope.display = function () {
 		  fillList($scope.numberPerPage , 1);
-		  getTotalPages($scope.numberPerPage , $scope.objects.length);
+		  if($scope.searchText == null){
+			  getTotalPages($scope.numberPerPage , $scope.objects.length);
+
+		  }else {
+			  getTotalPages($scope.numberPerPage , $scope.ListRecherche.length);
+
+		  }
 		  $scope.pages[1]=pageClicked( 1 , true);
 		  $scope.pages[1].paginationClass = "w3-hover-black w3-red";
+		 
 	  }
 	  //go to page
 	  $scope.goTo = function(index ){
@@ -36,7 +44,7 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 			  $scope.pages[j]=pageClicked( j , true);
 			  $scope.pages[j].paginationClass = "w3-hover-black w3-red";
 			  fillList($scope.numberPerPage , j);
-		  }else if (index == ($scope.totalPages + 1) ){
+		  }else if (index == $scope.totalPages + 1 ){
 			  
 			  var j = 0 ;
 			  for(i=1 ; i < $scope.pages.length - 1 ; i++){
@@ -65,12 +73,56 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 			  fillList($scope.numberPerPage , index);
 		  }
 	  }
+	  
+		
+		 
+	 
 	function fillList(size , index){
+		
 		 $scope.ListDisplay = [] ;
+		 $scope.ListRecherche = [] ;
 		if($scope.objects.length > 1){
-			for(i = 0  ; i < size ; i++  ){
-				$scope.ListDisplay[i] = $scope.objects[i + (index - 1)*size];
-			}
+			if($scope.likesFilter == "Yes"){
+				//sorting function : a-b for ascending order and b-a for descending order
+				 $scope.objects.sort(function(a, b) {
+					    return parseFloat(b.metadata.connections.likes.total) - parseFloat(a.metadata.connections.likes.total);
+					});
+			  }else{
+				  $.getJSON("appResources/JSON.json", function(json) {
+					    console.log(json.data); 
+					    $scope.objects = json.data;
+					   
+					});
+			  }
+			 if($scope.searchText == null){
+				 for(i = 0  ; i < size ; i++  ){
+						$scope.ListDisplay[i] = $scope.objects[i + (index - 1)*size];
+					}
+			  }else{
+				  $scope.ListRecherche = [];
+				  var j = 0 ;
+				  for(i = 0  ; i < $scope.objects.length ; i++  ){
+					  if($scope.objects[i].description != null){
+						  var n = $scope.objects[i].description.search($scope.searchText);
+					  }
+					  if(n != -1){
+						  $scope.ListRecherche[j] = $scope.objects[i];
+						  j=j+1;
+					  }	
+					}
+				  var newSize = 0 ;
+				  if($scope.ListRecherche.length < size){
+					  newSize = $scope.ListRecherche.length ;
+				  }else{
+					  newSize = size
+				  }
+				  for(i = 0  ; i < newSize ; i++  ){
+						if($scope.ListRecherche[i + (index - 1)*size] != null)$scope.ListDisplay[i] = $scope.ListRecherche[i + (index - 1)*size];
+						 
+					}
+			  }
+			
+			 
 		}
 		else{
 			alert("Object is NULL");
@@ -79,13 +131,19 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 	}
 	
 	function getTotalPages(numberPerPage , size){
-		$scope.pages = [] ;
-		$scope.totalPages = size / numberPerPage ;
+		$scope.pages      = [] ;
+		$scope.totalPages = 0;
+		var totalPages    = 0;
+		totalPages = size / numberPerPage ; /* (size / numberPerPage).toFixed(0) */
+		$scope.totalPages = setTotalPages(totalPages);
 		$scope.pages[0]=pageClicked( ">>" , false);
-		for(i = 0  ; i < $scope.totalPages ; i++  ){
+		var i=0;
+		while(i < $scope.totalPages){
+		
 			$scope.pages[i+1]=pageClicked( i+1 , false);
+			i = i+1 ;
 		}
-		$scope.pages[$scope.totalPages + 1]=pageClicked( "<<" , false);
+		$scope.pages[i + 1]=pageClicked( "<<" , false);
 	}
 	
 	function pageClicked ( number, clicked){
@@ -98,7 +156,16 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 		return page ;
 		
 	}
-	 
+	
+	function setTotalPages(x){
+		var i = 0 ;
+		while (i<x){
+			i = i + 1 ;
+		}
+		
+		return i ;
+	}
+	
 	// Accordion
 	  $scope.myFunction = function (id) {
 	      var x = document.getElementById(id);
