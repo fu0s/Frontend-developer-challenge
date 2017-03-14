@@ -9,6 +9,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+.container {
+         font-size: 16px;
+         line-height: 16px;
+         height: 32px;
+         width : 510px;
+         overflow: hidden;
+    }
+.show {
+         overflow: visible;
+         height: auto;
+    }
 </style>
 <div ng-controller="TestingController">
 	<body class="w3-theme-l5">
@@ -100,7 +111,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         </div>
          <div class="w3-col m9"> 
          			<h2><a href="object[0].link">{{object.name}}</a></h2>
-			        <p>Description : {{object.description}}</p>
+         			
+ 					<p class="container" ng-class="{show: show}">Description : {{object.description}}</p>
+				
+					<p class="w3-col m1" ng-click="show = !show" style="color : blue">Show </p><p ng-show=!show style="color : blue">more</p> <p ng-show=show style="color : blue">less</p>
+			       
 			        <div class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="glyphicon glyphicon-eye-open"></i>{{object.stats.plays}}  Vues</div>
 			        <div class="w3-btn w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>{{object.metadata.connections.likes.total}}  Like</div>
 			        <div class="w3-btn w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>{{object.metadata.connections.comments.total}} Comment</div>
