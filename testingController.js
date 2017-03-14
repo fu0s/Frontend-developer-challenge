@@ -120,6 +120,7 @@ define(['app', 'angular', 'gessCmnModule'], function(app, angular, gessCmnModule
 						if($scope.ListRecherche[i + (index - 1)*size] != null)$scope.ListDisplay[i] = $scope.ListRecherche[i + (index - 1)*size];
 						 
 					}
+				  if($scope.ListRecherche.length < 1)MessageHandler.alert("no result");
 			  }
 			
 			 
